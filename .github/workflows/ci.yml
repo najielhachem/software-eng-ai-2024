@@ -21,6 +21,10 @@ jobs:
         with:
           python-version: '>=3.10' # Specifies Python version to use
 
+      - name: Change directory to Project # Step specific to this project
+        run: cd ml_data_pipeline # Command to set current directory correctly
+        shell: bash
+
       - name: Install Poetry # Step to install Poetry
         run: pipx install poetry # Command to install Poetry using pipx
         shell: bash # Specifies the shell to execute the command
