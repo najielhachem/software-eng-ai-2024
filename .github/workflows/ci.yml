@@ -11,6 +11,9 @@ on: # Defines the events that trigger the workflow
 jobs:
   test: # Name of the job
     runs-on: ubuntu-latest # Specifies the operating system to run the job
+    defaults:
+      run:
+        working-directory: ./ml_data_pipeline # Step specific to this project
 
     steps:
       - name: Checkout code # Step to clone the repository
@@ -20,10 +23,6 @@ jobs:
         uses: actions/setup-python@v5 # Official action to install and configure Python
         with:
           python-version: '>=3.10' # Specifies Python version to use
-
-      - name: Change directory to Project # Step specific to this project
-        run: cd ml_data_pipeline # Command to set current directory correctly
-        shell: bash
 
       - name: Install Poetry # Step to install Poetry
         run: pipx install poetry # Command to install Poetry using pipx
