@@ -1,0 +1,38 @@
+name: CI Workflow # The name of the workflow
+
+on: # Defines the events that trigger the workflow
+  push: # Trigger the workflow on pushes to specific branches
+    branches:
+      - master
+  pull_request: # Trigger the workflow on pull requests to specific branches
+    branches:
+      - master
+
+jobs:
+  test: # Name of the job
+    runs-on: ubuntu-latest # Specifies the operating system to run the job
+
+    steps:
+      - name: Checkout code # Step to clone the repository
+        uses: actions/checkout@v4 # Official action to fetch repository content
+
+      - name: Set up Python # Step to set up Python
+        uses: actions/setup-python@v5 # Official action to install and configure Python
+        with:
+          python-version: '>=3.10' # Specifies Python version to use
+
+      - name: Install Poetry # Step to install Poetry
+        run: pipx install poetry # Command to install Poetry using pipx
+        shell: bash # Specifies the shell to execute the command
+
+      - name: Install Dependencies # Step to install project dependencies
+        run: poetry install # Command to install dependencies from pyproject.toml
+
+      - name: Run Tests # Step to run tests
+        run: poetry run pytest tests/ # Command to execute tests using Pytest
+
+      - name: Run Linting # Step to run linting
+        run: poetry run ruff check src/ tasks.py tests/ # Style checking using Ruff
+
+      - name: Run Typing Checks # Step to check type annotations
+        run: poetry run mypy src/ tasks.py tests/ # Type checking using MyPy
