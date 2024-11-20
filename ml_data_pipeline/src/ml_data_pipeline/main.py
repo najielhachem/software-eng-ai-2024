@@ -19,6 +19,7 @@ parser.add_argument(
 
 
 def main() -> None:
+    logger.info("MORE LOGGING.")
     logger.info("Parsing command line arguments.")
     args = parser.parse_args()
     logger.debug(f"Command line arguments: {args}.")
