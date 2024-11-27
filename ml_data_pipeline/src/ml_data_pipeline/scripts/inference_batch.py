@@ -4,6 +4,7 @@ import argparse
 from loguru import logger
 
 from ml_data_pipeline.config import load_config
+from ml_data_pipeline.core import InferencePipeline
 from ml_data_pipeline.data_loader import DataLoaderFactory
 from ml_data_pipeline.data_transformer import TransformerFactory
 from ml_data_pipeline.models import ModelFactory
@@ -23,7 +24,6 @@ def main() -> None:
     args = parser.parse_args()
     logger.debug(f"Command line arguments: {args}.")
 
-    logger.info("Pipeline execution started.")
     logger.info("Loading configuration.")
     config = load_config(args.config)
     logger.info("Loaded configuration successfully.")
@@ -39,29 +39,12 @@ def main() -> None:
         logger.error(f"Failed to load data: {e}")
         return
 
-    # Use TransformerFactory to transform data
-    try:
-        transformer = TransformerFactory.get_transformer(
-            config.transformation.scaling_method
-        )
-        transformed_data = transformer.transform(data)
-        logger.info("Data transformed successfully.")
-        logger.debug(f"Data: {transformed_data.head()}")
-    except Exception as e:
-        logger.error(f"Failed to transform data: {e}")
-        return
-
-    # Use ModelFactory to select and train the model
-    try:
-        model = ModelFactory.get_model(config.model.type)
-        predictions = model.predict(transformed_data)
-        logger.info("Model training and prediction completed successfully.")
-        logger.debug(f"Predictions: {predictions.head()}")
-    except Exception as e:
-        logger.error(f"Model training/prediction failed: {e}")
-        return
-
-    logger.info("Pipeline execution completed.")
+    data_transformer = TransformerFactory.get_transformer(
+        config.transformation.scaling_method
+    )
+    model = ModelFactory.get_model(config.model.type)
+    inference_pipeline = InferencePipeline(logger, data_transformer, model)
+    inference_pipeline.run(data)
 
 
 if __name__ == "__main__":

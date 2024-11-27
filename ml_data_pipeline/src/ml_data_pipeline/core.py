@@ -1,16 +1,20 @@
+from __future__ import annotations
+
+import loguru
 import pandas as pd
-from loguru import Logger
 
 from ml_data_pipeline.data_transformer.base_transformer import DataTransformer
 from ml_data_pipeline.models.base_model import Model
 
 
 class InferencePipeline:
-    _logger: Logger
+    _logger: loguru.Logger
     _data_transformer: DataTransformer
     _model: Model
 
-    def __init__(self, logger: Logger, data_transformer: DataTransformer, model: Model):
+    def __init__(
+        self, logger: loguru.Logger, data_transformer: DataTransformer, model: Model
+    ):
         self._logger = logger
         self._data_transformer = data_transformer
         self._model = model
