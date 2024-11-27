@@ -19,14 +19,8 @@ jobs:
       - name: Checkout code # Step to clone the repository
         uses: actions/checkout@v4 # Official action to fetch repository content
 
-      - name: Set up Python # Step to set up Python
-        uses: actions/setup-python@v5 # Official action to install and configure Python
-        with:
-          python-version: '>=3.10' # Specifies Python version to use
-
-      - name: Install Poetry # Step to install Poetry
-        run: pipx install poetry # Command to install Poetry using pipx
-        shell: bash # Specifies the shell to execute the command
+      - name: Setup Project Environment
+        uses: ./.github/actions/setup
 
       - name: Install Dependencies # Step to install project dependencies
         run: poetry install # Command to install dependencies from pyproject.toml
