@@ -32,10 +32,10 @@ jobs:
         run: poetry install # Command to install dependencies from pyproject.toml
 
       - name: Run Tests # Step to run tests
-        run: poetry run pytest tests/ # Command to execute tests using Pytest
+        run: poetry run invoke test
 
       - name: Run Linting # Step to run linting
-        run: poetry run ruff check src/ tasks.py tests/ # Style checking using Ruff
+        run: poetry run invoke lint
 
       - name: Run Typing Checks # Step to check type annotations
-        run: poetry run mypy src/ tasks.py tests/ # Type checking using MyPy
+        run: poetry run invoke type
