@@ -18,7 +18,7 @@ fastapi = "^0.115.5"
 uvicorn = "^0.32.1"
 
 [tool.poetry.scripts]
-ml-data-pipeline = "ml_data_pipeline.main:main"
+ml-data-pipeline = "ml_data_pipeline.scripts.inference_batch:main"
 
 [tool.poetry.group.dev.dependencies]
 pdoc = "^15.0.0"
