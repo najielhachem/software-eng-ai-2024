@@ -49,9 +49,10 @@ class InferencePipeline:
             logger.info("Running Inference.")
             predictions = self._model.predict(transformed_data)
             logger.debug(f"Predictions: {predictions.head()}")
-            logger.info("Model training and prediction completed successfully.")
+            logger.info("Model prediction completed successfully.")
 
             logger.info("Pipeline execution completed.")
+            return predictions
 
         except Exception as e:
             logger.error(f"Failed in Pipeline Execution: {e}")
