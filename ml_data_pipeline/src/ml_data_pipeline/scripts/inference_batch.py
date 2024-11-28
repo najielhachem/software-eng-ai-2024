@@ -4,10 +4,8 @@ import argparse
 from loguru import logger
 
 from ml_data_pipeline.config import load_config
-from ml_data_pipeline.core import InferencePipeline
+from ml_data_pipeline.core import load_pipeline
 from ml_data_pipeline.data_loader import DataLoaderFactory
-from ml_data_pipeline.data_transformer import TransformerFactory
-from ml_data_pipeline.models import ModelFactory
 
 # Configure loguru to log to a file and console
 logger.add("logs/pipeline.log", rotation="500 MB")  # Log rotation at 500 MB
@@ -39,11 +37,7 @@ def main() -> None:
         logger.error(f"Failed to load data: {e}")
         return
 
-    data_transformer = TransformerFactory.get_transformer(
-        config.transformation.scaling_method
-    )
-    model = ModelFactory.get_model(config.model.type)
-    inference_pipeline = InferencePipeline(data_transformer, model)
+    inference_pipeline = load_pipeline(config.transformation, config.model)
     inference_pipeline.run(data)
 
 

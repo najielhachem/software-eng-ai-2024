@@ -3,8 +3,21 @@ from __future__ import annotations
 import pandas as pd
 from loguru import logger
 
+from ml_data_pipeline.config import ModelConfig, TransformationConfig
 from ml_data_pipeline.data_transformer.base_transformer import DataTransformer
+from ml_data_pipeline.data_transformer.factory import TransformerFactory
 from ml_data_pipeline.models.base_model import Model
+from ml_data_pipeline.models.factory import ModelFactory
+
+
+def load_pipeline(
+    transformation_config: TransformationConfig, model_config: ModelConfig
+) -> "InferencePipeline":
+    data_transformer = TransformerFactory.get_transformer(
+        transformation_config.scaling_method
+    )
+    model = ModelFactory.get_model(model_config.type)
+    return InferencePipeline(data_transformer, model)
 
 
 class InferencePipeline:
