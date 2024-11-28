@@ -43,7 +43,7 @@ def main() -> None:
         config.transformation.scaling_method
     )
     model = ModelFactory.get_model(config.model.type)
-    inference_pipeline = InferencePipeline(logger, data_transformer, model)
+    inference_pipeline = InferencePipeline(data_transformer, model)
     inference_pipeline.run(data)
 
 
