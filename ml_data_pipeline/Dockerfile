@@ -9,11 +9,18 @@ RUN pip install --no-cache-dir pipx && \
     pipx install poetry && \
     ln -s /root/.local/bin/poetry /usr/local/bin/poetry
 
-# Copy project files
-COPY . /app
+
+# Copy only dependency files first to leverage Docker's caching
+COPY poetry.lock pyproject.toml /app/
 
 # Install dependencies with Poetry
-RUN poetry install
+RUN poetry install --no-root --no-cache
+
+# Copy the rest of the project files
+COPY . /app
+
+# Explicitly install the project in editable mode
+RUN poetry run pip install -e .
 
 # Expose the port FastAPI will run on
 EXPOSE 8000
