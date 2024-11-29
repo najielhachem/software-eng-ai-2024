@@ -14,9 +14,11 @@ scikit-learn = "^1.5.2"
 omegaconf = "^2.3.0"
 pydantic = "^2.9.2"
 loguru = "^0.7.2"
+fastapi = "^0.115.5"
+uvicorn = "^0.32.1"
 
 [tool.poetry.scripts]
-ml-data-pipeline = "ml_data_pipeline.main:main"
+ml-data-pipeline = "ml_data_pipeline.scripts.inference_batch:main"
 
 [tool.poetry.group.dev.dependencies]
 pdoc = "^15.0.0"
