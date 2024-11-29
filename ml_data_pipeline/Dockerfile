@@ -1,14 +1,18 @@
 # Use an official Python runtime as the base image
-FROM python:3.12
+FROM python:3.12-slim
 
 # Set the working directory
 WORKDIR /app
 
+# Install pipx and Poetry in a single layer
+RUN pip install --no-cache-dir pipx && \
+    pipx install poetry && \
+    ln -s /root/.local/bin/poetry /usr/local/bin/poetry
+
 # Copy project files
 COPY . /app
 
-# Install Poetry and dependencies
-RUN pip install pipx && pipx install poetry
+# Install dependencies with Poetry
 RUN poetry install
 
 # Expose the port FastAPI will run on
