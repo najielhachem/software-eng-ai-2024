@@ -1,4 +1,6 @@
 # src/ml_data_pipeline/config.py
+from typing import Any, Dict
+
 from omegaconf import OmegaConf
 from pydantic import BaseModel, field_validator
 
@@ -66,9 +68,11 @@ class ModelConfig(BaseModel):
 
     Attributes:
         type (str): The type of the model (linear or tree).
+        params (Dict[str, Any]): Additional parameters for the model.
     """
 
     type: str
+    params: Dict[str, Any] = {}
 
     @field_validator("type")
     def validate_model_type(cls, value: str) -> str:

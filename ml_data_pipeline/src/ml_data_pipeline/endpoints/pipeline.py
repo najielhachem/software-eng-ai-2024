@@ -24,7 +24,7 @@ router = APIRouter()
 
 # Instantiate the Pipeline With Default Configration
 TRANSFORMATION_CONFIG = TransformationConfig(scaling_method="standard", normalize=True)
-MODEL_CONFIG = ModelConfig(type="linear")
+MODEL_CONFIG = ModelConfig(type="linear", params={})
 
 pipeline_endpoint = load_pipeline(TRANSFORMATION_CONFIG, MODEL_CONFIG)
 

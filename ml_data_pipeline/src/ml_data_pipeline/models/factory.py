@@ -1,4 +1,6 @@
 # src/ml_data_pipeline/model/factory.py
+from ml_data_pipeline.config import ModelConfig
+
 from .base_model import Model
 from .linear_model import LinearModel
 from .tree_model import DecisionTreeModel
@@ -8,7 +10,7 @@ class ModelFactory:
     """Factory class to create model instances based on the model type."""
 
     @staticmethod
-    def get_model(model_type: str) -> Model:
+    def get_model(config: ModelConfig) -> Model:
         """Returns an instance of a model based on the provided model type.
 
         Args:
@@ -20,9 +22,9 @@ class ModelFactory:
         Raises:
             ValueError: If the provided model type is unsupported.
         """
-        if model_type == "linear":
+        if config.type == "linear":
             return LinearModel()
-        elif model_type == "tree":
-            return DecisionTreeModel()
+        elif config.type == "tree":
+            return DecisionTreeModel(**config.params)
         else:
-            raise ValueError(f"Unsupported model type: {model_type}")
+            raise ValueError(f"Unsupported model type: {config.type}")
