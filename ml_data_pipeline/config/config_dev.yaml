@@ -1,3 +1,6 @@
+mlflow:
+  tracking_uri: "http://localhost:5000"
+  experiment_name: "development_exp_1"
 data_loader:
   file_path: "data/sample_data_dev.csv"
   file_type: "csv"

@@ -92,6 +92,13 @@ class ModelConfig(BaseModel):
         return value
 
 
+class MLflowConfig(BaseModel):
+    """Configuration for MLflow."""
+
+    tracking_uri: str
+    experiment_name: str
+
+
 class Config(BaseModel):
     """Overall configuration for the pipeline.
 
@@ -99,11 +106,13 @@ class Config(BaseModel):
         data_loader (DataLoaderConfig): Configuration for the data loader.
         transformation (TransformationConfig): Configuration for the data transformation.
         model (ModelConfig): Configuration for the model.
+        mlflow (MLflowConfig): Configuration for MLflow.
     """
 
     data_loader: DataLoaderConfig
     transformation: TransformationConfig
     model: ModelConfig
+    mlflow: MLflowConfig
 
 
 def load_config(config_path: str) -> Config:
