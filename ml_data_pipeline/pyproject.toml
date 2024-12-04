@@ -20,6 +20,7 @@ mlflow = "^2.18.0"
 
 [tool.poetry.scripts]
 ml-data-pipeline = "ml_data_pipeline.scripts.inference_batch:main"
+ml-data-pipeline-train = "ml_data_pipeline.scripts.train_batch:main"
 
 [tool.poetry.group.dev.dependencies]
 pdoc = "^15.0.0"
