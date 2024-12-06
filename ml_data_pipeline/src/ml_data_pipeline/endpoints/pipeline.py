@@ -40,27 +40,27 @@ MODEL_CONFIG = ModelConfig(type="linear", params={})
 pipeline_endpoint = load_pipeline(TRANSFORMATION_CONFIG, MODEL_CONFIG)
 
 
-@REQUEST_LATENCY.time()  # Track latency of the endpoint
 @router.post("/predict", response_model=PredictOutput)
 async def predict_endpoint(input_data: PredictInput) -> PredictOutput:
     """
     Converts input JSON to DataFrame, runs the pipeline, and converts output DataFrame to JSON.
     """
     REQUEST_COUNT.inc()  # Increment request count
-    try:
-        # Convert input JSON to pandas DataFrame
-        input_df = pd.DataFrame(input_data.data)
-        logger.info("Input data converted to DataFrame.")
-        logger.debug(f"Input data: {input_df.head()}")
+    with REQUEST_LATENCY.time():
+        try:
+            # Convert input JSON to pandas DataFrame
+            input_df = pd.DataFrame(input_data.data)
+            logger.info("Input data converted to DataFrame.")
+            logger.debug(f"Input data: {input_df.head()}")
 
-        # Run pipeline predict method
-        logger.info("Running pipeline on input dataframe.")
-        predictions_df = pipeline_endpoint.run(input_df)
-        logger.info("Pipeline execution completed.")
-        logger.debug(f"Predictions: {predictions_df.head()}")
+            # Run pipeline predict method
+            logger.info("Running pipeline on input dataframe.")
+            predictions_df = pipeline_endpoint.run(input_df)
+            logger.info("Pipeline execution completed.")
+            logger.debug(f"Predictions: {predictions_df.head()}")
 
-        return PredictOutput(predictions=predictions_df)
-    except Exception as e:
-        REQUEST_ERRORS.inc()  # Increment error count
-        logger.error(f"Error in predict endpoint: {e}")
-        raise HTTPException(status_code=500, detail="Prediction failed.")
+            return PredictOutput(predictions=predictions_df)
+        except Exception as e:
+            REQUEST_ERRORS.inc()  # Increment error count
+            logger.error(f"Error in predict endpoint: {e}")
+            raise HTTPException(status_code=500, detail="Prediction failed.")
