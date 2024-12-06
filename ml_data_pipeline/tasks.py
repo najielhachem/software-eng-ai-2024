@@ -29,6 +29,14 @@ def type(ctx: Context) -> None:
 
 
 @task
+def check(ctx: Context) -> None:
+    """Run type, lint and format checks"""
+    lint(ctx)
+    format(ctx)
+    type(ctx)
+
+
+@task
 def docs(ctx: Context) -> None:
     """Generate HTML documentation with pdoc."""
     ctx.run("poetry run pdoc src/ml_data_pipeline -o docs -d google", pty=True)

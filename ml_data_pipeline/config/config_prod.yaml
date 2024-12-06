@@ -1,3 +1,6 @@
+mlflow:
+  tracking_uri: "http://127.0.0.1:5001"
+  experiment_name: "production_exp_1"
 data_loader:
   file_path: "data/sample_data_prod.csv"
   file_type: "csv"

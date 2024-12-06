@@ -2,6 +2,7 @@
 import pandas as pd
 import pytest
 
+from ml_data_pipeline.config import ModelConfig
 from ml_data_pipeline.models import ModelFactory
 
 
@@ -16,7 +17,8 @@ def sample_target() -> pd.Series:
 
 
 def test_linear_model(sample_data: pd.DataFrame, sample_target: pd.Series) -> None:
-    model = ModelFactory.get_model("linear")
+    model_config = ModelConfig(type="linear")
+    model = ModelFactory.get_model(model_config)
     model.train(sample_data, sample_target)
     predictions = model.predict(sample_data)
     assert isinstance(predictions, pd.Series)
@@ -24,7 +26,8 @@ def test_linear_model(sample_data: pd.DataFrame, sample_target: pd.Series) -> No
 
 
 def test_tree_model(sample_data: pd.DataFrame, sample_target: pd.Series) -> None:
-    model = ModelFactory.get_model("tree")
+    model_config = ModelConfig(type="tree")
+    model = ModelFactory.get_model(model_config)
     model.train(sample_data, sample_target)
     predictions = model.predict(sample_data)
     assert isinstance(predictions, pd.Series)
