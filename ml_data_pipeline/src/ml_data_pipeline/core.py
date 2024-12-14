@@ -16,7 +16,7 @@ def load_pipeline(
     data_transformer = TransformerFactory.get_transformer(
         transformation_config.scaling_method
     )
-    model = ModelFactory.get_model(model_config.type)
+    model = ModelFactory.get_model(model_config)
     return InferencePipeline(data_transformer, model)
 
 

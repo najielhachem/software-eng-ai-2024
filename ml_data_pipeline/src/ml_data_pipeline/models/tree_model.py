@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict
 
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
@@ -9,7 +9,7 @@ from .base_model import Model
 class DecisionTreeModel(Model):
     """A decision tree model for training and prediction."""
 
-    def __init__(self, **kwargs: dict[str, Any]) -> None:
+    def __init__(self, **kwargs: Dict[str, Any]) -> None:
         """
         Initializes the DecisionTreeModel with the given parameters.
 
